@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreeFileConverter - Convert Any File Online</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --accent: #fd79a8;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --success: #00b894;
+            --warning: #fdcb6e;
+            --danger: #d63031;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f6fa;
+            color: var(--dark);
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .nav-item {
+            position: relative;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem 0;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+        
+        .nav-item:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .dropdown-link {
+            display: block;
+            padding: 0.6rem 1.5rem;
+            color: var(--dark);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        
+        .dropdown-link:hover {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, #f5f7fa, #e4e8f0);
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .hero p {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        
+        .categories {
+            padding: 3rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary);
+        }
+        
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .category-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        .tool-item {
+            padding: 0.6rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .tool-item:last-child {
+            border-bottom: none;
+        }
+        
+        .tool-link {
+            color: var(--dark);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.2s ease;
+        }
+        
+        .tool-link:hover {
+            color: var(--primary);
+        }
+        
+        .popular-tool {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+        
+        .popular-label {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-link {
+            color: var(--secondary);
+            text-decoration: none;
+        }
+        
+        .converter-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+        }
+        
+        .converter-title {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .upload-area {
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 3rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+        
+        .upload-area:hover {
+            border-color: var(--primary);
+            background-color: #f9f9f9;
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
+        }
+        
+        .result-area {
+            margin-top: 2rem;
+            display: none;
+        }
+        
+        .download-btn {
+            margin-top: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .converter-container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/" class="logo">FreeFileConverter</a>
+            <div class="nav-links">
+                <div class="nav-item">
+                    <a href="/" class="nav-link">Home</a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link">Document</a>
+                    <div class="dropdown">
+                        <a href="/pdf-to-word" class="dropdown-link">PDF to Word</a>
+                        <a href="/word-to-pdf" class="dropdown-link">Word to PDF</a>
+                        <a href="/pdf-to-excel" class="dropdown-link">PDF to Excel</a>
+                        <a href="/excel-to-pdf" class="dropdown-link">Excel to PDF</a>
+                        <a href="/pdf-to-ppt" class="dropdown-link">PDF to PPT</a>
+                        <a href="/ppt-to-pdf" class="dropdown-link">PPT to PDF</a>
+                    </div>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link">Image</a>
+                    <div class="dropdown">
+                        <a href="/jpg-to-png" class="dropdown-link">JPG to PNG</a>
+                        <a href="/png-to-jpg" class="dropdown-link">PNG to JPG</a>
+                        <a href="/webp-to-jpg" class="dropdown-link">WebP to JPG</a>
+                        <a href="/svg-to-png" class="dropdown-link">SVG to PNG</a>
+                        <a href="/heic-to-jpg" class="dropdown-link">HEIC to JPG</a>
+                        <a href="/bmp-to-jpg" class="dropdown-link">BMP to JPG</a>
+                    </div>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link">Video</a>
+                    <div class="dropdown">
+                        <a href="/mp4-to-mov" class="dropdown-link">MP4 to MOV</a>
+                        <a href="/mov-to-mp4" class="dropdown-link">MOV to MP4</a>
+                        <a href="/avi-to-mp4" class="dropdown-link">AVI to MP4</a>
+                        <a href="/mkv-to-mp4" class="dropdown-link">MKV to MP4</a>
+                        <a href="/webm-to-mp4" class="dropdown-link">WebM to MP4</a>
+                        <a href="/gif-to-mp4" class="dropdown-link">GIF to MP4</a>
+                    </div>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link">Audio</a>
+                    <div class="dropdown">
+                        <a href="/mp3-to-wav" class="dropdown-link">MP3 to WAV</a>
+                        <a href="/wav-to-mp3" class="dropdown-link">WAV to MP3</a>
+                        <a href="/flac-to-mp3" class="dropdown-link">FLAC to MP3</a>
+                        <a href="/ogg-to-mp3" class="dropdown-link">OGG to MP3</a>
+                        <a href="/aac-to-mp3" class="dropdown-link">AAC to MP3</a>
+                        <a href="/m4a-to-mp3" class="dropdown-link">M4A to MP3</a>
+                    </div>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link">Archive</a>
+                    <div class="dropdown">
+                        <a href="/zip-to-rar" class="dropdown-link">ZIP to RAR</a>
+                        <a href="/rar-to-zip" class="dropdown-link">RAR to ZIP</a>
+                        <a href="/tar-to-zip" class="dropdown-link">TAR to ZIP</a>
+                        <a href="/7z-to-zip" class="dropdown-link">7Z to ZIP</a>
+                        <a href="/gzip-to-zip" class="dropdown-link">GZIP to ZIP</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Convert Files Easily & Quickly</h1>
+            <p>Free online file converter for documents, images, videos, audio, and archives. No registration required.</p>
+        </section>
+
+        <section class="categories">
+            <h2 class="section-title">Popular Conversion Tools</h2>
+            <div class="category-grid">
+                <div class="category-card">
+                    <div class="card-header">Document Converters</div>
+                    <div class="card-body">
+                        <div class="tool-item"><a href="/pdf-to-word" class="tool-link">PDF to Word</a></div>
+                        <div class="tool-item"><a href="/word-to-pdf" class="tool-link">Word to PDF</a></div>
+                        <div class="tool-item"><a href="/pdf-to-excel" class="tool-link">PDF to Excel</a></div>
+                        <div class="popular-tool">
+                            <span class="popular-label">MOST POPULAR</span>
+                            <a href="/word-to-pdf" class="tool-link">Word to PDF Converter</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="category-card">
+                    <div class="card-header">Image Converters</div>
+                    <div class="card-body">
+                        <div class="tool-item"><a href="/jpg-to-png" class="tool-link">JPG to PNG</a></div>
+                        <div class="tool-item"><a href="/png-to-jpg" class="tool-link">PNG to JPG</a></div>
+                        <div class="tool-item"><a href="/webp-to-jpg" class="tool-link">WebP to JPG</a></div>
+                        <div class="popular-tool">
+                            <span class="popular-label">MOST POPULAR</span>
+                            <a href="/jpg-to-png" class="tool-link">JPG to PNG Converter</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="category-card">
+                    <div class="card-header">Video Converters</div>
+                    <div class="card-body">
+                        <div class="tool-item"><a href="/mp4-to-mov" class="tool-link">MP4 to MOV</a></div>
+                        <div class="tool-item"><a href="/mov-to-mp4" class="tool-link">MOV to MP4</a></div>
+                        <div class="tool-item"><a href="/avi-to-mp4" class="tool-link">AVI to MP4</a></div>
+                        <div class="popular-tool">
+                            <span class="popular-label">MOST POPULAR</span>
+                            <a href="/mp4-to-mov" class="tool-link">MP4 to MOV Converter</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="category-card">
+                    <div class="card-header">Audio Converters</div>
+                    <div class="card-body">
+                        <div class="tool-item"><a href="/mp3-to-wav" class="tool-link">MP3 to WAV</a></div>
+                        <div class="tool-item"><a href="/wav-to-mp3" class="tool-link">WAV to MP3</a></div>
+                        <div class="tool-item"><a href="/flac-to-mp3" class="tool-link">FLAC to MP3</a></div>
+                        <div class="popular-tool">
+                            <span class="popular-label">MOST POPULAR</span>
+                            <a href="/wav-to-mp3" class="tool-link">WAV to MP3 Converter</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-links">
+            <a href="/about" class="footer-link">About</a>
+            <a href="/privacy" class="footer-link">Privacy Policy</a>
+            <a href="/terms" class="footer-link">Terms of Service</a>
+            <a href="/contact" class="footer-link">Contact</a>
+        </div>
+        <p>&copy; 2023 FreeFileConverter. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Handle file upload and conversion (simulated)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if we're on a converter page
+            if (window.location.pathname !== '/') {
+                // Create converter interface
+                const main = document.querySelector('main');
+                main.innerHTML = `
+                    <div class="converter-container">
+                        <h1 class="converter-title">${document.title}</h1>
+                        <div class="upload-area" id="uploadArea">
+                            <div class="upload-icon">📁</div>
+                            <h3>Drag & Drop your file here</h3>
+                            <p>or click to browse files</p>
+                            <input type="file" id="fileInput" style="display: none;">
+                        </div>
+                        <div class="result-area" id="resultArea">
+                            <h3>File ready for conversion!</h3>
+                            <button class="btn download-btn" id="convertBtn">Convert File</button>
+                        </div>
+                    </div>
+                `;
+                
+                const uploadArea = document.getElementById('uploadArea');
+                const fileInput = document.getElementById('fileInput');
+                const resultArea = document.getElementById('resultArea');
+                const convertBtn = document.getElementById('convertBtn');
+                
+                uploadArea.addEventListener('click', () => fileInput.click());
+                
+                fileInput.addEventListener('change', (e) => {
+                    if (e.target.files.length) {
+                        uploadArea.innerHTML = `
+                            <div class="upload-icon">✓</div>
+                            <h3>${e.target.files[0].name}</h3>
+                            <p>${(e.target.files[0].size / 1024 / 1024).toFixed(2)} MB</p>
+                        `;
+                        resultArea.style.display = 'block';
+                    }
+                });
+                
+                convertBtn.addEventListener('click', () => {
+                    // Simulate conversion
+                    uploadArea.innerHTML = `
+                        <div class="upload-icon">⏳</div>
+                        <h3>Converting your file...</h3>
+                    `;
+                    
+                    setTimeout(() => {
+                        uploadArea.innerHTML = `
+                            <div class="upload-icon">🎉</div>
+                            <h3>Conversion complete!</h3>
+                        `;
+                        convertBtn.textContent = 'Download Converted File';
+                        convertBtn.addEventListener('click', () => {
+                            alert('In a real implementation, this would download the converted file.');
+                        });
+                    }, 2000);
+                });
+                
+                // Handle drag and drop
+                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                    uploadArea.addEventListener(eventName, preventDefaults, false);
+                });
+                
+                function preventDefaults(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                
+                ['dragenter', 'dragover'].forEach(eventName => {
+                    uploadArea.addEventListener(eventName, highlight, false);
+                });
+                
+                ['dragleave', 'drop'].forEach(eventName => {
+                    uploadArea.addEventListener(eventName, unhighlight, false);
+                });
+                
+                function highlight() {
+                    uploadArea.style.borderColor = 'var(--primary)';
+                    uploadArea.style.backgroundColor = 'rgba(108, 92, 231, 0.1)';
+                }
+                
+                function unhighlight() {
+                    uploadArea.style.borderColor = '#ccc';
+                    uploadArea.style.backgroundColor = '';
+                }
+                
+                uploadArea.addEventListener('drop', handleDrop, false);
+                
+                function handleDrop(e) {
+                    const dt = e.dataTransfer;
+                    const files = dt.files;
+                    fileInput.files = files;
+                    const event = new Event('change');
+                    fileInput.dispatchEvent(event);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
